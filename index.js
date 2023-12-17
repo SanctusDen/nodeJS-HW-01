@@ -36,7 +36,7 @@ async function invokeAction({ action, id, name, email, phone }) {
 
 invokeAction(argv);
 // invokeAction({action:"get"});
-invokeAction({ action: "list" });
+// invokeAction({ action: "list" });
 // invokeAction({ action: "remove" });
 // invokeAction({
 //   action: "add",
