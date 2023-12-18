@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 const path = require("path");
-const contactsPath = path.join(__dirname, "db", "contacts");
+const contactsPath = path.join(__dirname, "db", "contacts.json");
+const { nanoid } = require("nanoid");
 
 async function listContacts() {
   const data = await fs.readFile(contactsPath);
@@ -16,23 +17,35 @@ async function getContactById(contactId) {
 async function removeContact(contactId) {
   const contacts = await listContacts();
   const index = contacts.findIndex((contact) => contact.id === contactId);
-  if (index !== -1) {
+  if (index === -1) {
     return null;
   }
-  const [result] = contacts.splice(index, 1);
+  const [deletedContact] = contacts.splice(index, 1);
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return result;
+  return deletedContact;
 }
 
-async function addContact(data) {
+async function addContact(name, email, phone) {
   const contacts = await listContacts();
-  const newContact = {
+  const isExist = contacts.find(
+    (contact) =>
+      contact.name === name &&
+      contact.email === email &&
+      contact.phone === phone
+  );
+  if (isExist) {
+    console.warn("Contact with such credentials already exists");
+    return;
+  }
+  const newContacts = {
     id: nanoid(),
-    ...data,
+    name,
+    email,
+    phone,
   };
-  contacts.push(newContact);
+  contacts.push(newContacts);
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return newContact;
+  return newContacts;
 }
 
 module.exports = {

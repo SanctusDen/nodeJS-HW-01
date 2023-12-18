@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-hw-01",
+  "name": "y",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,6 +7,7 @@
     "start": "node index",
     "dev": "nodemon index"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {

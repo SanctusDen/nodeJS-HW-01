@@ -5,28 +5,27 @@ const {
   removeContact,
   addContact,
 } = require("./contacts");
-const { nanoid } = require("nanoid");
 
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       const allContacts = await listContacts();
-      return console.log(allContacts);
+      return console.table(allContacts);
       break;
 
     case "get":
       const oneContact = await getContactById(id);
-      return console.log(oneContact);
+      return console.table(oneContact);
       break;
 
     case "add":
-      const newContacts = addContact({ name, email, phone });
-      return console.log(newContacts);
+      const newContact = await addContact(name, email, phone);
+      return console.table(newContact);
       break;
 
     case "remove":
       const deleteContact = await removeContact(id);
-      return console.log(deleteContact);
+      return console.table(deleteContact);
       break;
 
     default:
@@ -35,12 +34,3 @@ async function invokeAction({ action, id, name, email, phone }) {
 }
 
 invokeAction(argv);
-// invokeAction({action:"get"});
-// invokeAction({ action: "list" });
-// invokeAction({ action: "remove" });
-// invokeAction({
-//   action: "add",
-//   name: "Mango",
-//   email: "mango@gmail.com",
-//   phone: "322-22-22",
-// });
